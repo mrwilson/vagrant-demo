@@ -26,7 +26,8 @@ app-source:
 app-config:
   file.managed:
     - name: {{ pillar['app']['target_dir'] }}/src/main/resources/spring/musicserver.properties
-    - source: salt://app/musicserver.properties
+    - source: salt://app/app.properties
+    - template: jinja
     - user: vagrant
     - mode: 644
     - require:
@@ -37,3 +38,5 @@ app-build:
     - name: mvn clean package
     - cwd: {{ pillar['app']['target_dir'] }}
     - user: vagrant
+    - require:
+      - file: app-config
